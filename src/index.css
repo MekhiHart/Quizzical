@@ -5,9 +5,61 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+
+  
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.start-logo{
+  position: absolute;
+  z-index: -1;
+  max-width: 500px;
+}
+
+.starting-div{
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  margin: 0 auto;
+  align-items: center;
+  margin-top: 50%;
+}
+
+.starting-div > h1{
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 31.25px;
+  line-height: 37px;
+  text-align: center;
+  color: #293264;
+
+}
+
+.starting-div > p{
+  margin-top: -10px;
+  margin-bottom: 30px;
+}
+
+.createQuiz-btn{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #F5F7FB;
+
+  width: 250px;
+  padding: 20px 15px;
+  
+  background: #4D5B9E;
+  border-radius: 15px;
 }
