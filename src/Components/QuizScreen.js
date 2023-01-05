@@ -1,58 +1,50 @@
 import React, {useState,useEffect} from "react";
 import Question from "./Question"
+import {nanoid} from "nanoid"
 
 export default function Quiz(props){
-    const [questionsArrayObj, setQuestionsArrayObj] = useState([])
 
-    // useEffect(()=>{
-    //     fetch("https://opentdb.com/api.php?amount=5&category=31")
-    //     .then(res => res.json())
-    //     .then(data => setQuestionsArrayObj(data.results))
-    //     // .then(ret => JSON.stringify(ret))
-        
-        
-    // },[])
+    const [questionsObjArray, setQuestionsObjArray] = useState([])
 
-    
     useEffect(()=>{
         fetch("https://opentdb.com/api.php?amount=5&category=31&encode=base64")
         .then(res => res.json())
-        .then(data => setQuestionsArrayObj(data.results))
-        
+        .then(data => setQuestionsObjArray(transformData(data))) // ! Use atob() to decode data
 
-    },[])
+    },[]) // * useEffect
+
+    console.log(questionsObjArray)
 
     
+    function transformData(data){ // ! For data.result
+        const results = data.results
 
+        let returnArray = results.map(questionObj =>{
+            let possibleAnswers = [questionObj.correct_answer, ...questionObj.incorrect_answers]
+            possibleAnswers = devodeValues(possibleAnswers)
+            possibleAnswers = shuffleArray(possibleAnswers)
 
-    const questionsArray = questionsArrayObj.map(obj =>  atob(obj.question) )
-    const answersArrayObj = questionsArrayObj.map(obj => {
-        let possibleAnswersArray = [obj.correct_answer, ...obj.incorrect_answers]
-        let incorrectAnswersArray = obj.incorrect_answers.map(item => atob(item))
-        possibleAnswersArray = possibleAnswersArray.map(item => atob(item))
-        possibleAnswersArray = shuffleArray(possibleAnswersArray)
+            let buttonsObjArray = possibleAnswers.map(answer =>({
+                value: answer,
+                isSelected: false,
+                isCorrect: answer === atob(questionObj.correct_answer),
+                id: nanoid()
+            }))
 
-        let returnObj = {
-            correct_answer: atob(obj.correct_answer),
-            incorrect_answers: incorrectAnswersArray,
-            possibleAnswers: possibleAnswersArray
-        }
-        return returnObj
-    })
+            questionObj = {
+                id: nanoid(),
+                button: buttonsObjArray
+            }
+            return questionObj
+        })
 
-    const questionComponents = createQuestionComponents(questionsArray,answersArrayObj)
-
-
-    function createQuestionComponents(qArray,answerArrayObj){
-        let returnArray = []
-        for (let i=0; i<qArray.length;i++){
-            returnArray.push(<Question
-            question={qArray[i]}
-            answer={answerArrayObj[i]}
-            />)
-        }
         return returnArray
-    }
+    } // * transformQUestionObjArray
+
+    function devodeValues(arr){
+        let decodedArray = arr.map(val => atob(val))
+        return decodedArray
+    } // * decodeValues
 
 
     function shuffleArray(arr){
@@ -70,9 +62,9 @@ export default function Quiz(props){
         
         return returnArray
 
-    }
+    } //* shuffleArray
 
     return(
-        questionComponents
+        <Question/>
     )
 }
