@@ -12,5 +12,6 @@ export default function StartingScreen(props){
             className="createQuiz-btn" 
             onClick={props.handleClick}> Start Quiz </button>
         </div>
+        
     )
 }

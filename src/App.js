@@ -7,9 +7,11 @@ import './App.css';
 import logo from "./Images/splash.png"
 
 
-function App() {
 
+function App() {
+  
   const [quizEnd, setQuizEnd] = useState(true) // ! Original state = false
+
 
   function handleQuizEnd(){
     setQuizEnd(prevState => !prevState)
