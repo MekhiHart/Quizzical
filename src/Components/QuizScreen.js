@@ -25,7 +25,6 @@ export default function QuizScreen(props){
         />))
 
     // * Interactive functions
-    console.log("Quiz State", props.quizEnded)
 
     function selectButton(questionId, buttonId){ // ! Fuct this func lmao
 

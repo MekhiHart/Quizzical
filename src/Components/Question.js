@@ -34,7 +34,6 @@ export default function Question(props){
             buttonStyle.background = button.isSelected ? "#D6DBF5" : "none"
         }
         else {
-            console.log("Quiz Ended")
             if(button.isCorrect) buttonStyle.background = "#94D7A2"
             else if(button.isSelected && !button.isCorrect) buttonStyle.background = "#F8BCBC"
         }

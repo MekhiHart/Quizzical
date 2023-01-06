@@ -10,7 +10,7 @@ import logo from "./Images/splash.png"
 
 function App() {
   
-  const [quizCreated, setQuizCreated] = useState(true) // ! Original state = false
+  const [quizCreated, setQuizCreated] = useState(false) // ! Original state = false
   const [quizEnded, setQuizEnded] = useState(false)
 
   const [restartQuiz,setRestartQuiz] = useState(false)
