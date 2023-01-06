@@ -69,6 +69,11 @@ code {
   border-radius: 15px;
 }
 
+.quiz-screen{
+  display: flex;
+  flex-direction: column;
+}
+
 .question{
   display: flex;
   flex-direction: column;
@@ -94,6 +99,28 @@ color: #293264;
   display: flex;
 }
 
+.footer-button{
+  width: 50px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  align-self: center;
+
+  background: #4D5B9E;
+  border-radius: 10px;
+  width: 104px;
+  height: 30px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 10.24px;
+  /* identical to box height */
+  
+  text-align: center;
+  
+  color: #F5F7FB;
+  
+}
 
 
 
@@ -101,4 +128,22 @@ color: #293264;
   margin-top: 10px;
   border-top: 0.794239px solid #DBDEF0;
   transform: rotate
+}
+
+.footer{
+  display: flex;
+  justify-content: center;
+  
+}
+
+.footer > h3{
+  padding-right: 30px;
+  padding-top: 12px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15.8px;
+  line-height: 15px;
+  text-align: center;
 }

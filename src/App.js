@@ -10,18 +10,30 @@ import logo from "./Images/splash.png"
 
 function App() {
   
-  const [quizEnd, setQuizEnd] = useState(true) // ! Original state = false
+  const [quizCreated, setQuizCreated] = useState(true) // ! Original state = false
+  const [quizEnded, setQuizEnded] = useState(false)
+
+  const [restartQuiz,setRestartQuiz] = useState(false)
+  
+
+  function handleQuizEnded(){ // ! Located at footer component
+    setQuizEnded(prevState => !prevState)
+
+    if(quizEnded){ 
+      setRestartQuiz(prevState => !prevState) // ! Restart quiz is place as a dependency array to restart quiz
+    }
+  }
 
 
-  function handleQuizEnd(){
-    setQuizEnd(prevState => !prevState)
+  function handleQuizCreated(){
+    setQuizCreated(prevState => !prevState)
   }
 
   return (
     <main>
-        {quizEnd ? 
-        <QuizScreen/> : 
-        <StartingScreen logo={logo} handleClick={handleQuizEnd}/>}
+        {quizCreated ? 
+        <QuizScreen quizEnded={quizEnded} handleClick={handleQuizEnded} isQuizRestarted={restartQuiz} /> : 
+        <StartingScreen logo={logo} handleClick={handleQuizCreated}/>}
     </main>
   );
 }

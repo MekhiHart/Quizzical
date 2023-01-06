@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from "react";
 import Question from "./Question"
+import Footer from "./Footer"
 import {nanoid} from "nanoid"
 
 export default function QuizScreen(props){
@@ -7,11 +8,12 @@ export default function QuizScreen(props){
     const [questionsObjArray, setQuestionsObjArray] = useState([])
     const [quizPoints, setQuizPoints] = useState(0)
 
+
     useEffect(()=>{
         fetch("https://opentdb.com/api.php?amount=5&category=31&encode=base64")
         .then(res => res.json())
         .then(data => setQuestionsObjArray(transformData(data))) // ! Use atob() to decode data
-    },[]) // * useEffect
+    },[props.isQuizRestarted]) // * useEffect
 
     const questionComponents = questionsObjArray.map(questionObj => (
         <Question 
@@ -19,33 +21,38 @@ export default function QuizScreen(props){
         key={questionObj.id}
         data={questionObj}
         selectButton={selectButton} // * Function
+        quizEnded={props.quizEnded}
         />))
 
     // * Interactive functions
+    console.log("Quiz State", props.quizEnded)
 
     function selectButton(questionId, buttonId){ // ! Fuct this func lmao
 
-        setQuestionsObjArray(prevState=>{
-            let returnArray // ! Contains array of objects
-            returnArray = prevState.map(questionObj =>{
-                if(questionObj.id === questionId ){ // * If the question component is what the user clicked
-                    return{
-                        ...questionObj,
-                        buttons: questionObj.buttons.map(button =>({
-                            ...button,
-                            isSelected: buttonId === button.id
-                        }))
+        if (!props.quizEnded){
+            setQuestionsObjArray(prevState=>{
+                let returnArray // ! Contains array of objects
+                returnArray = prevState.map(questionObj =>{
+                    if(questionObj.id === questionId ){ // * If the question component is what the user clicked
+                        return{
+                            ...questionObj,
+                            buttons: questionObj.buttons.map(button =>({
+                                ...button,
+                                isSelected: buttonId === button.id
+                            }))
+                        }
                     }
-                }
-
-                else return questionObj // * If the question component is not the user clicked
-                 // *temp
+    
+                    else return questionObj // * If the question component is not the user clicked
+                     // *temp
+                })
+    
+               setQuizPoints( HandleQuizPoints(returnArray)) // ! Sets points
+                // returnButtonProps(questionId,buttonId,returnArray)
+                return returnArray // * New Array with button isSelected
             })
 
-           setQuizPoints( HandleQuizPoints(returnArray)) // ! Sets points
-            // returnButtonProps(questionId,buttonId,returnArray)
-            return returnArray // * New Array with button isSelected
-        })
+        }
     }// *selectButton()
     
     // * Interactive functions
@@ -59,6 +66,7 @@ export default function QuizScreen(props){
         })
         return local_quizPoints
     }
+
 
     
 
@@ -112,8 +120,13 @@ export default function QuizScreen(props){
     } //* shuffleArray
 
     return(
-        <div>
+        <div className="quiz-screen">
             {questionComponents}
+            <Footer handleClick={props.handleClick} 
+            quizEnded={props.quizEnded}
+            quizPoints={quizPoints}
+            quizTotal={questionsObjArray.length}
+            />
         </div>
     )
 }

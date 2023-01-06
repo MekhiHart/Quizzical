@@ -4,11 +4,13 @@ export default function Question(props){
     const question = props.data.question
     const questionKey = props.data.id
 
+    
+
     // * Render Button
 
     const buttons = props.data.buttons.map(button => {
     
-        const buttonStyle={
+        let buttonStyle ={
             background: button.isSelected ? "#D6DBF5" : "none",
             borderRadius: "7.94239px",
             border:button.isSelected ? "none" : "0.794239px solid #4D5B9E",
@@ -26,6 +28,18 @@ export default function Question(props){
             lineHeight: "12px",
             textAlign: "center",
         }
+
+        if(!props.quizEnded){
+            
+            buttonStyle.background = button.isSelected ? "#D6DBF5" : "none"
+        }
+        else {
+            console.log("Quiz Ended")
+            if(button.isCorrect) buttonStyle.background = "#94D7A2"
+            else if(button.isSelected && !button.isCorrect) buttonStyle.background = "#F8BCBC"
+        }
+
+
     
         return (
         <button 
